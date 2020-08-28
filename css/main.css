@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+body, section, header {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #272727;
+}
+
+p.console {
+    font-family: 'Roboto Mono', monospace;
+}
+
+header.terminal {
+    background: #E0E8F0;
+    height: 30px;
+    border-radius: 8px 8px 0 0;
+    padding-left: 10px;
+}
+
+.terminal-container header .button {
+    width: 12px;
+    height: 12px;
+    margin: 10px 4px 0 0;
+    display: inline-block;
+    border-radius: 8px;
+}
+
+.green {
+    background-color: #3BB662 !important;
+}
+
+.red {
+    background-color: #E75448 !important;
+}
+
+.yellow {
+    background-color: #E5C30F !important;
+}
+
+.terminal-container {
+    text-align: left;
+    width: 100%;
+    border-radius: 10px;
+    margin: auto;
+    position: relative;
+    min-height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-home {
+    background-color: #272727;
+    padding: 1.5em 1em 1em 2em;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    color: #FAFAFA;
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
+.img {
+    background-image: url("https://i.imgur.com/bIbV1Yv.png");
+    max-width: 100vw;
+    height: auto;
+    display: block;
+    opacity: 0.4;
+}
+
+#quit {
+    color: #FAFAFA;
+    padding-left: 1.5em;
+    padding-bottom: 1em;
+}
+
+.hide {
+    display: none;
+}
