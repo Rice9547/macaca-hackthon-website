@@ -81,13 +81,14 @@ const desc = `
 # 提案徵稿
 ## 提案徵稿資格與限制
 - 資格:
-    - 中山大學在校教職員生，且已註冊本平台(Hackmd)帳號。
+    - 中山大學在校教職員生，且已註冊帳號。
 - 限制:
     - 提案必須是軟體類型(註：物聯網裝置亦可)，跟中山大學有關。
+
 ## 提案徵稿時間
-2020年9月2日(三)
+2020年9月9日(三)
 至
-2020年11月8日(日)
+2020年10月9日(五)
 
 ## 提案徵稿方式
 原則上依處室做為分類，於本活動之許願池依相對應分類填寫，[統一格式](/8vETBU5WTA2C9nkP_Sn87g)之提案。
@@ -96,11 +97,11 @@ const desc = `
 參考[提案範例](/8vETBU5WTA2C9nkP_Sn87g)
 
 ## 提案投票
-依學號登入投票，每人 99 票
+依學號登入投票，每人 1 票
 投票期間皆可進行修改或重新投票
 
 ## 投票時間
-2020年11月16日(一)
+2020年11月17日(二)
 至
 2020年11月30日(一)
 
@@ -129,7 +130,7 @@ const desc = `
     - 國立中山大學電資大樓 5012 室
 
 ## 黑客松評審
->[name=楊志璿] 希望找的人：校長、社師、學校重要處室主任、資工系主任
+希望找的人：校長、社師、學校重要處室主任、資工系主任
 
 ## 黑客松額外福利
 現場提供一日四餐吃到飽
@@ -145,11 +146,67 @@ const desc = `
 若提案受COVID-19(武漢肺炎)疫情之影響，主辦單位有權暫停本計畫。
 `;
 
-const award = `award`;
+const award = `
+# 評選原則
+## 投票徵選
+* [投票連結]()
 
-const join = `join`;
+## 黑客松
+| 原則   | 比例 | 說明                             |
+|:------ |:---- |:------------------------------ |
+| 可行性 | 40%  | 法規允許、成果能確實導入公共服務之運作 |
+| 影響力 | 40%  | 滿足學校及學生需求                 |
+| 擴充性 | 20%  | 未來還可以從這進行擴充的程度         |
 
-const contact = `contact`;
+# 獎勵方式
+## 投稿徵選
+* 抽抽參加獎: 麻古高山金萱茶大杯一分糖去冰，乙杯
+    * 隨機抽出有投稿徵選者 20 份
+* 好點子獎: 
+    * 前 5 高票者
+* 參與投票獎：麻古高山金萱茶中杯一分糖去冰，乙杯
+    * 投票次數最多的前10人(同次數採亂數前10人)
+* 隨機抽取算法
+    \`\`\`shell=
+    for i in $(seq 1 10)
+    do
+        head -c 1 /dev/random | xxd | awk '{print "ibase=16; "toupper($2)}' | bc    
+    done
+    \`\`\`
+
+## 黑客松
+* 參加獎: 紀念 T-shirt
+    * 有出席黑客松之隊伍，每人乙件
+    * 現場給予
+* 有做出來獎:
+    * 有做出投稿該項所有要求之隊伍，每隊乙件
+* 黑客猴王獎:+神秘禮物
+    * 評選最高之隊伍，乙件
+
+**未加註之獎項皆於活動後給予**
+`;
+
+const join = `
+# 目前尚未開放報名
+`;
+
+const contact = `
+# 主辦單位
+- 中山大學資安社:
+    - [Facebook 粉專](https://www.facebook.com/nsysuisc)
+- 中山大學程式研習社:
+    - [Facebook 粉專](https://www.facebook.com/nsysu.code.club)
+
+# 協辦單位
+中山大學學務處課外組/圖資處資安組
+中山大學學生會
+教育部資安人才培育計畫
+
+# 贊助單位
+
+# 特別感謝
+- HITCON
+`;
 
 function replaceLink(text) {
     var matchs = /\[(.+)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig.exec(text);
@@ -175,6 +232,11 @@ function parseMarkdown(text) {
     return res;
 }
 
+const STATE = {
+    'TERMINAL': 0,
+    'MAN': 1
+}
+
 window.onload = () => {
     let text = {
         background: background,
@@ -184,27 +246,46 @@ window.onload = () => {
         join: join,
         contact: contact
     };
+    let state = STATE.TERMINAL;
     let content = document.getElementById('content');
     let btns = document.getElementsByClassName('list')[0].children;
     let quit = document.getElementById('quit');
     let list = document.getElementById('list');
-    let console = document.getElementsByClassName('console');
-    function clickMan(e) {
-        content.innerHTML = parseMarkdown(text[e.target.getAttribute('name')]);
+    let command = document.getElementsByClassName('command');
+    function stateTerminal() {
+        state = STATE.TERMINAL;
+        list.classList.remove('hide');
+        for (let i of command) {
+            i.classList.remove('hide');
+        }
+        content.classList.add('hide');
+        quit.classList.add('hide');
+    }
+    function stateMan() {
+        state = STATE.MAN;
+
         list.classList.add('hide');
-        for (let i of console) {
+        for (let i of command) {
             i.classList.add('hide');
         }
+        content.classList.remove('hide');
         quit.classList.remove('hide');
+    }
+    function clickMan(e) {
+        content.innerHTML = marked(text[e.target.getAttribute('name')])
+        stateMan();
     }
     for (ele of btns) {
         ele.addEventListener('click', clickMan);
     }
     document.getElementById('q').addEventListener('click', (e) => {
-        list.classList.remove('hide');
-        for (let i of console) {
-            i.classList.remove('hide');
-        }
-        quit.classList.add('hide');
+        stateTerminal();
     });
+    document.getElementsByTagName('body')[0].addEventListener('keydown', (e) => {
+        if (e.code == 'KeyQ') {
+            if (state == STATE.MAN) {
+                stateTerminal();
+            }
+        }
+    })
 };

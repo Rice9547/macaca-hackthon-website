@@ -7,6 +7,7 @@
     <title>吱吱盃黑客松</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/animation.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 
@@ -18,14 +19,14 @@
             <span class="button green"></span>
         </header>
         <div class="terminal-home">
-            <p class="console"><span style="color: #9CD9F0;">$</span> man <span class="cursor">_</span></p>
+            <p class="command"><span style="color: #9CD9F0;">$</span> man <span class="cursor">_</span></p>
             <div class="list" id="list">
-                <button name='background'>目標背景</button>
-                <button name='rule'>活動規範</button>
-                <button name='desc'>活動說明</button>
-                <button name='award'>評選/獎勵方式</button>
-                <button name='join'>報名連結</button>
-                <button name='contact'>聯絡我們</button>
+                <button name='background' class="dir">目標背景</button>
+                <button name='rule' class="dir">活動規範</button>
+                <button name='desc' class="dir">活動說明</button>
+                <button name='award' class="dir">評選/獎勵方式</button>
+                <button name='join' class="dir">報名連結</button>
+                <button name='contact' class="dir">聯絡我們</button>
             </div>
             <div id="content"></div>
         </div>
