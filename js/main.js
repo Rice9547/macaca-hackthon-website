@@ -208,30 +208,6 @@ const contact = `
 - HITCON
 `;
 
-function replaceLink(text) {
-    var matchs = /\[(.+)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig.exec(text);
-    return matchs ? `<a href="${matchs[2]}">${matchs[1]}</a>` : text;
-}
-
-function parseMarkdown(text) {
-    let res = '';
-    text.split('\n').forEach(element => {
-        txt = element.trim();
-        if (txt.length == 0) {
-            return;
-        }
-        txt = replaceLink(txt);
-        let i = 0, tag = 'p';
-        while (txt[i] == '#') i++;
-        if (i) {
-            tag = `h${i}`;
-            txt = txt.slice(i).trim();
-        }
-        res += `<${tag}>${txt}</${tag}>`;
-    });
-    return res;
-}
-
 const STATE = {
     'TERMINAL': 0,
     'MAN': 1
